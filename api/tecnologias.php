@@ -9,3 +9,4 @@ $sql = "SELECT id, nome, categoria, descricao, ano_criacao FROM tecnologias WHER
 $tecnologias = $pdo->query($sql)->fetchAll();
 
 echo json_encode($tecnologias);
+?>
