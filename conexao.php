@@ -6,7 +6,7 @@ $user = 'dwii_user';
 $pass = 'dwii2026';
 $charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host,dbname=$db;charset=$charset";
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
 $opcoes = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
