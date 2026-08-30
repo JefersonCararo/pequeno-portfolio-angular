@@ -12,4 +12,5 @@
     </button>
 </form>
 
-@if 
+@if (sucesso)  {<p class="ok">{{ sucesso }}</p>}
+@if (erro) {<p class="erro">{{erro}}</p>}
