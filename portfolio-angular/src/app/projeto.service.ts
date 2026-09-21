@@ -25,5 +25,11 @@ export class ProjetoService {
   }
 
   atualizar(id: number, projeto: Projeto): Observable<{ id?: number; mensagem?: string}>{
+    return this.http.put<{ id?: number; mensagem?: string}>(`${this.url}?id=${id}`, projeto);    
+
+  }
+   excluir(id: number, projeto: Projeto): Observable<{ id?: number; mensagem?: string}>{
+    return this.http.delete<{ id?: number; mensagem?: string}>(`${this.url}?id=${id}`);    
+    
   }
   }
