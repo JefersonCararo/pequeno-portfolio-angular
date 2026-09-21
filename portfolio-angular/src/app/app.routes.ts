@@ -4,6 +4,7 @@ import { Sobre } from './sobre/sobre';
 import { Projetos } from './projetos/projetos';
 import { Catalogo } from './catalogo/catalogo';
 import { Contato } from './contato/contato';
+import { Gestao } from "./gestao/gestao";
 
 
 export const routes: Routes = [
@@ -12,4 +13,5 @@ export const routes: Routes = [
     { path: 'projetos', component: Projetos},
     { path: 'contato', component: Contato},
     { path: 'catalogo', component: Catalogo},   
+    { path: 'gestao', component: Gestao},
 ];

@@ -1,4 +1,4 @@
-import {Injetable, inject} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 export interface NovoContato{
@@ -8,7 +8,7 @@ export interface RespostaContato{
     sucesso: boolean; id: number; mensagem: string;
 }
 
-@Injetable({provededIn: 'root'})
+@Injectable({providedIn: 'root'})
 export class ContatoService{
     private http = inject(HttpClient);
     private url = 'http://localhost:8000/api/contato.php';
