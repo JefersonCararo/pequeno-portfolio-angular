@@ -14,5 +14,20 @@ COMO RODAR:
 A API SOBE EM http://localhost:3000. TESTE COM:
     curl -i http://localhost:3000/api/projetos
 
+
+AULA 22: a API le do banco
+
+ANTES DE SUBIR A API, O MARIADB PRECISA ESTAR DE PÉ:
+
+    sudo service mariadb start
+    cd api-node
+    node server.js
+
+ROTAS QUE LEEM DO 'dwii_db':
+
+    curl -i http://localhost:3000/api/projetos
+    curl -i http://localhost:3000/api/projetos/5
+    curl -i http://localhost:3000/api/tecnologias
+
 O NODE ESTÁ  NA VERSAO v24.14.0
 NPM 11.9.0

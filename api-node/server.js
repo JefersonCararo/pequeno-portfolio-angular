@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const pool = require('./db');
 
 const app = express();
 const PORTA = 3000;
@@ -40,6 +41,29 @@ const projetos = [
     }
 ];
 
-app.get('/api/projetos', (req, res) =>{
-    res.json(projetos);
+app.get('/api/projetos', async (req, res) =>{
+    try{
+        const sql = "SELECT id, nome, descricao, tecnologias, link_github, ano FROM projetos WHERE status = 'publicado' ORDER BY ano DESC, id";
+    const [projetos] =  await pool.query(sql);
+    res.json(resultado);
+    } catch (erro){
+        res.status(500).json({ erro: 'Falha no servidor: ' + erro.message });
+    }
+    
+    });
+
+app.get('/api/projetos/:id', async (req, res) =>{
+    try{
+    const sql = "SELECT id, nome, descricao, tecnologias, link_github, ano FROM projetos WHERE status = 'publicado' ORDER BY ano DESC, id";
+    const [linhas] =  await pool.query(sql, [req.params.id]);
+    if (linhas.lenght === 0){
+        return res.status(404).json({ erro: 'Projeto nao encontrado'});
+    }
+        res.json(linhas[0]);
+    } catch (erro){
+         res.status(500).json({ erro: 'Falha no servidor: ' + erro.message });
+    }
+    
+    
+
 });
