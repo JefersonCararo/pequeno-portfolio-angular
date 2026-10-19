@@ -49,11 +49,20 @@ const projetos = [
     }
 ];
 
+app.get('/api/projetos', async (req, res) => {
+try {
+const sql = "SELECT id, nome, descricao, tecnologias, link_github, ano FROM projetos WHERE status = 'publicado' ORDER BY ano DESC, id";
+const [projetos] = await pool.query(sql);
+res.json(projetos);
+} catch (erro) {
+res.status(500).json({ erro: 'Falha no servidor: ' + erro.message });
+}
+});
 
 app.get('/api/projetos/:id', async (req, res) =>{
     try{
-    const sql = "SELECT id, nome, descricao, tecnologias, link_github, ano FROM projetos WHERE status = 'publicado' ORDER BY ano DESC, id";
-    const [linhas] =  await pool.query(sql, [req.params.id]);
+    const sql = "SELECT id, nome, descricao, tecnologias, link_github, ano FROM projetos WHERE id =? AND status = 'publicado'";
+    const [linhas] =  await pool.execute(sql, [req.params.id]);
     if (linhas.lenght === 0){
         return res.status(404).json({ erro: 'Projeto nao encontrado'});
     }
@@ -63,22 +72,22 @@ app.get('/api/projetos/:id', async (req, res) =>{
     }
 });
     
-    app.post('/api/projetos', async (req, res) =>{
-        try{
-            const dados = req.body;
-            console.log(dados);
-            if (!dados || !dados.nome){
-                return res.status(400).json({ erro: 'Informe pelo menos o nome do projeto'});  
-            }
-            const sql = 'INSERT INTO projetos(nome, descricao, tecnologias, link_github, ano, status) VALUES (?, ?, ?, ?, ?, ?)';
-            const [resultado] = await pool.execute(sql, [
-                dados.nome, dados.descricao ?? '', dados.tecnologias ?? '', dados.link_github ?? '', dados.ano ?? new Date().getFullYear(), 'publicado'
-            ]);
-            res.status(201).json({ id: resultado.insertId});
-        } catch (erro) {
-            res.status(500).json({ erro: 'Falha no servidor: ' + erro.erro.message});
+app.post('/api/projetos', async (req, res) =>{
+    try{
+        const dados = req.body;
+        console.log(dados);
+        if (!dados || !dados.nome){
+            return res.status(400).json({ erro: 'Informe pelo menos o nome do projeto'});  
         }
-    });
+        const sql = 'INSERT INTO projetos(nome, descricao, tecnologias, link_github, ano, status) VALUES (?, ?, ?, ?, ?, ?)';
+        const [resultado] = await pool.execute(sql, [
+            dados.nome, dados.descricao ?? '', dados.tecnologias ?? '', dados.link_github ?? '', dados.ano ?? new Date().getFullYear(), 'publicado'
+        ]);
+        res.status(201).json({ id: resultado.insertId});
+    } catch (erro) {
+        res.status(500).json({ erro: 'Falha no servidor: ' + erro.erro.message});
+    }
+});
 
 app.put('/api/projetos/:id', async (req, res) =>{
     try{
@@ -99,15 +108,15 @@ app.put('/api/projetos/:id', async (req, res) =>{
     }
 });
 
-    app.delete('/api/projetos/:id', async (req, res) =>{
-        try {
-            const [resultado] = await pool.execute('DELETE FROM projetos WHERE id = ?', [req.params.id])
-            if(resultado.affectedRows === 0){
-                return res.status(404).json({ erro: 'Projeto nao encontrado'});
-            }
-            res.status(204).end();
-        } catch (erro){
-            res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
+app.delete('/api/projetos/:id', async (req, res) =>{
+    try {
+        const [resultado] = await pool.execute('DELETE FROM projetos WHERE id = ?', [req.params.id])
+        if(resultado.affectedRows === 0){
+            return res.status(404).json({ erro: 'Projeto nao encontrado'});
         }
+        res.status(204).end();
+    } catch (erro){
+        res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
+    }
 
-    });
+});
