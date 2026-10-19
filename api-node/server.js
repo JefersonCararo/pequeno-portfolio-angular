@@ -5,8 +5,8 @@ const pool = require('./db');
 const app = express();
 const PORTA = 3000;
 
-app.get('/', (req, res) =>{
-    res.send('API do Portfolio em Node: no ar');
+ app.get('/', (req, res) =>{
+     res.send('API do Portfolio em Node: no ar');
 });
 
 app.listen(PORTA, () =>{
@@ -61,6 +61,7 @@ app.get('/api/projetos/:id', async (req, res) =>{
     } catch (erro){
          res.status(500).json({ erro: 'Falha no servidor: ' + erro.message });
     }
+});
     
     app.post('/api/projetos', async (req, res) =>{
         try{
@@ -78,8 +79,6 @@ app.get('/api/projetos/:id', async (req, res) =>{
             res.status(500).json({ erro: 'Falha no servidor: ' + erro.erro.message});
         }
     });
-
-});
 
 app.put('/api/projetos/:id', async (req, res) =>{
     try{
@@ -99,3 +98,16 @@ app.put('/api/projetos/:id', async (req, res) =>{
         res.status(500).json({ erro: 'Falha no servidor: ' + erro.message });
     }
 });
+
+    app.delete('/api/projetos/:id', async (req, res) =>{
+        try {
+            const [resultado] = await pool.execute('DELETE FROM projetos WHERE id = ?', [req.params.id])
+            if(resultado.affectedRows === 0){
+                return res.status(404).json({ erro: 'Projeto nao encontrado'});
+            }
+            res.status(204).end();
+        } catch (erro){
+            res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
+        }
+
+    });

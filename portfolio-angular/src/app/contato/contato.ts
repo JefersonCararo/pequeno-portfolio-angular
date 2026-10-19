@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
-import {ReactiveFormsModule, FromBuilder, Validators} from '@angular/forms';
-import {ContatoService} from '../contato.service';
+import {ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
+import {ContatoService} from '../../contato.service';
 @Component({
   selector:'app-contato',
   standalone: true,
@@ -8,7 +8,7 @@ import {ContatoService} from '../contato.service';
   templateUrl: './contato.html',
 })
 export class Contato{
-  private fb = inject(FromBuilder);
+  private fb = inject(FormBuilder).nonNullable;
   private service = inject(ContatoService);
   enviando = false; sucesso = ''; erro = '';
 

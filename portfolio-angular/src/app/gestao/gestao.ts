@@ -11,9 +11,9 @@ import {ProjetoService, Projeto } from '../projeto.service';
 export class Gestao implements OnInit{
   private service = inject(ProjetoService);
 
-  projetos: Projeto[] = [];
+  projeto: Projeto[] = [];
   carregando = true;
-  erro: string | null = '';
+  erro: string | null = null;
 
   editandoId: number | null = null;
   salvando = false;
@@ -23,6 +23,7 @@ export class Gestao implements OnInit{
     descricao: new FormControl(''),
     tecnologias: new FormControl(''),
     link_github: new FormControl(''),
+    status: new FormControl('publicado'),
     ano: new FormControl(2026, [Validators.required])
   });
 
@@ -33,7 +34,7 @@ export class Gestao implements OnInit{
   carregar() {
     this.carregando = true;
     this.service.listar().subscribe({
-      next: (lista) => { this.projetos = lista; this.carregando = false; },
+      next: (lista) => { this.projeto = lista; this.carregando = false; },
       error: () => { this.erro = 'Não foi possível carregar os projetos.'; this.carregando = false; }
     });
   }
@@ -55,17 +56,25 @@ export class Gestao implements OnInit{
       : this.service.criar(dados);
 
     requisicao.subscribe({
-      next: () => { this.salvando = false; },
+      next: () => { this.salvando = false; this.editandoId = null; this.form.reset({
+      nome: '',
+      descricao: '',
+      tecnologias: '',
+      link_github: '',
+      ano: 2026,
+      status: 'publicado'
+    }); this.carregar()},
       error: () => { this.salvando = false; this.erro = 'Não foi possível salvar. Tente de novo.'; }
     });
   }
-
-  excluir(p: Projeto) {
-    if (!p.id) return;
-    if (!confirm('Excluir o projeto "${p.nome}"? Esta ação não pode ser desfeita.')) return;
+  
+    excluir(p: Projeto) {
+    if (!p.id) {return;}
+    if (!confirm('Excluir o projeto "${p.nome}"? Esta ação não pode ser desfeita.')) {return;}
 
     this.service.excluir(p.id).subscribe({
-      next: () => { this.projetos = this.projetos.filter(x => x.id !== p.id); },
+      next: () => { this.projeto = this.projeto.filter(x => x.id !== p.id); },
       error: () => { this.erro = 'Não foi possível excluir. Tente de novo.'; }
     });
-  }}
+  }
+}

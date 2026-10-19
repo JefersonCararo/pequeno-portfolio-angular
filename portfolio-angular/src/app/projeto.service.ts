@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Projeto {
-  id: number;
+  id?: number;
   nome: string;
   descricao: string;
   tecnologias: string;
@@ -14,7 +14,7 @@ export interface Projeto {
 @Injectable({ providedIn: 'root' })
 export class ProjetoService {
   private http = inject(HttpClient);
-  private url = 'https://ideal-eureka-4j4rwr6p7qv4fj74j-3000.app.github.dev';
+  private url = 'https://ideal-eureka-4j4rwr6p7qv4fj74j-3000.app.github.dev/api/projetos.php';
 
   listar(): Observable<Projeto[]> {
     return this.http.get<Projeto[]>(this.url);
@@ -24,12 +24,12 @@ export class ProjetoService {
     return this.http.post<{ id?: number; mensagem?: string}>(this.url, projeto);
   }
 
-  atualizar(id: number, projeto: Projeto): Observable<{ id?: number; mensagem?: string}>{
+  atualizar(id: number, projeto : Projeto): Observable<{ id?: number; mensagem?: string}>{
     return this.http.put<{ id?: number; mensagem?: string}>(`${this.url}?id=${id}`, projeto);    
 
   }
-   excluir(id: number, projeto: Projeto): Observable<{ id?: number; mensagem?: string}>{
-    return this.http.delete<{ id?: number; mensagem?: string}>(`${this.url}?id=${id}`);    
+   excluir(id: number): Observable<{ id?: number; mensagem?: string}>{
+    return this.http.delete<{ id?: number; mensagem?: string}>('${this.url}?id=${id}');    
     
   }
   }
