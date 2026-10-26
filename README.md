@@ -14,6 +14,11 @@ COMO RODAR:
 A API SOBE EM http://localhost:3000. TESTE COM:
     curl -i http://localhost:3000/api/projetos
 
+AULA 25: portfolio em react
+
+O front novo nasce em 'portfolio-react/' (vite+react), ao lado do angular
+
+
 
 AULA 24: a tranca
 
