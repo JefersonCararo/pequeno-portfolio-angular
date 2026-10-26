@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS contatos (
   mensagem TEXT NOT NULL,
   criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
- 
+ USE dwii_db;
 INSERT INTO projetos (nome, descricao, tecnologias, link_github, ano, status) VALUES
 ('Portfolio Pessoal',            'Site de portfolio responsivo com PHP, PDO e MariaDB, painel admin e login.', 'PHP, MariaDB, CSS, Git',   'https://github.com/usuario/portfolio',  2026, 'publicado'),
 ('Sistema de Biblioteca',        'CRUD de acervo e emprestimos, com busca e relatorios.',                      'PHP, MariaDB, Bootstrap',  'https://github.com/usuario/biblioteca', 2025, 'publicado'),

@@ -15,13 +15,21 @@ A API SOBE EM http://localhost:3000. TESTE COM:
     curl -i http://localhost:3000/api/projetos
 
 
-AULA 22: a API le do banco
+AULA 24: a tranca
 
-ANTES DE SUBIR A API, O MARIADB PRECISA ESTAR DE PÉ:
+quem escrevee precisa de um token. Antes do primeiro uso, crie a tabela e o dono:
 
-    sudo service mariadb start
+    sudo service mariadb dwii_db < sql/usuarios.sql
     cd api-node
-    node server.js
+    npm install
+    node criar-usuario,js dono@portfolio.dev portfolio2026
+
+Login e escrita com o token:
+
+curl -i http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"email":"dono@portfolio.dev","senha":"portfolio2026"}'
+
+
+
 
 ROTAS QUE LEEM DO 'dwii_db':
 
